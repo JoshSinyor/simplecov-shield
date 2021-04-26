@@ -1,4 +1,4 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 if ENV['TRAVIS'] == 'true'
   require 'coveralls'
@@ -7,7 +7,7 @@ end
 
 require 'simplecov-shield'
 
-ASSETS_PATH = File.expand_path('../assets', __FILE__)
+ASSETS_PATH = File.expand_path('assets', __dir__)
 
 RSpec.configure do |config|
   # Spec Filtering

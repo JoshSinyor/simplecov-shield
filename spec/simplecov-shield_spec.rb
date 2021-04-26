@@ -1,12 +1,11 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 require 'spec_helper'
 
 describe SimpleCov::Formatter::ShieldFormatter do
-
   before do
-  	@formatter = SimpleCov::Formatter::ShieldFormatter.new
-    
+    @formatter = SimpleCov::Formatter::ShieldFormatter.new
+
     allow(@formatter).to receive(:generate_shield)
     allow(@formatter).to receive(:coverage_percent).and_return(97)
   end
@@ -29,7 +28,7 @@ describe SimpleCov::Formatter::ShieldFormatter do
     end
 
     it 'should open the shield file' do
-      coverage_path = File.expand_path('../../coverage', __FILE__)
+      coverage_path = File.expand_path('../coverage', __dir__)
 
       expect(File).to receive(:open)
         .with("#{coverage_path}/coverage.svg", 'w')
@@ -115,4 +114,3 @@ describe SimpleCov::Formatter::ShieldFormatter do
     end
   end
 end
-
