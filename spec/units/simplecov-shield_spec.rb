@@ -28,7 +28,7 @@ describe SimpleCov::Formatter::ShieldFormatter do
     end
 
     it 'should open the shield file' do
-      coverage_path = File.expand_path('../coverage', __dir__)
+      coverage_path = File.expand_path('../../coverage', __dir__)
 
       expect(File).to receive(:open)
         .with("#{coverage_path}/coverage.svg", 'w')
@@ -50,6 +50,14 @@ describe SimpleCov::Formatter::ShieldFormatter do
     it 'should write the shield to the file' do
       shield = File.read("#{ASSETS_PATH}/coverage.svg")
       expect_any_instance_of(File).to receive(:write).with(shield)
+
+      @formatter.generate_shield
+    end
+
+    it 'should write a file that matches the specimen file' do
+      shield = File.read("#{ASSETS_PATH}/coverage.svg")
+      specimen_shield = File.read('spec/assets/coverage.svg')
+      expect(shield).to eq specimen_shield
 
       @formatter.generate_shield
     end
