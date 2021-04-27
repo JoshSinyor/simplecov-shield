@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = 'simplecov-shield'
-  spec.version       = '0.1.0'
+  spec.version       = '0.1.1'
   spec.authors       = ['Andrew Terris', 'Lesley Dennison']
   spec.email         = ['atterris@gmail.com']
   spec.description   = 'Shield generator for SimpleCov'
