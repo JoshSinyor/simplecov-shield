@@ -7,7 +7,7 @@ describe SimpleCov::Formatter::ShieldFormatter do
     @formatter = SimpleCov::Formatter::ShieldFormatter.new
 
     allow(@formatter).to receive(:generate_shield)
-    allow(@formatter).to receive(:coverage_percent).and_return(97)
+    allow(@formatter).to receive(:coverage_percent).and_return(95)
   end
 
   describe '#format' do
@@ -17,7 +17,6 @@ describe SimpleCov::Formatter::ShieldFormatter do
 
     it 'should generate the shield' do
       expect(@formatter).to receive(:generate_shield)
-
       @formatter.format(@result)
     end
   end
@@ -27,13 +26,13 @@ describe SimpleCov::Formatter::ShieldFormatter do
       allow(@formatter).to receive(:generate_shield).and_call_original
     end
 
-    it 'should open the shield file' do
-      coverage_path = File.expand_path('../../coverage', __dir__)
-
-      expect(File).to receive(:open)
-        .with("#{coverage_path}/coverage.svg", 'w')
-
+    after(:each) do
       @formatter.generate_shield
+    end
+
+    it 'should open the shield file' do
+      expect(File).to receive(:open)
+        .with("#{COVERAGE_PATH}/coverage.svg", 'w')
     end
 
     it 'should call shields.io api' do
@@ -41,56 +40,46 @@ describe SimpleCov::Formatter::ShieldFormatter do
       allow(response).to receive(:parsed_response)
 
       expect(HTTParty).to receive(:get)
-        .with('http://img.shields.io/badge/coverage-97%25-brightgreen.svg')
+        .with('http://img.shields.io/badge/coverage-95%25-brightgreen.svg')
         .and_return(response)
-
-      @formatter.generate_shield
     end
 
     it 'should write the shield to the file' do
-      shield = File.read("#{ASSETS_PATH}/coverage.svg")
+      shield = File.read("#{ASSETS_PATH}/coverage_95%_brightgreen.svg")
       expect_any_instance_of(File).to receive(:write).with(shield)
-
-      @formatter.generate_shield
-    end
-
-    it 'should write a file that matches the specimen file' do
-      shield = File.read("#{ASSETS_PATH}/coverage.svg")
-      specimen_shield = File.read('spec/assets/coverage.svg')
-      expect(shield).to eq specimen_shield
-
-      @formatter.generate_shield
     end
   end
 
   describe '#shield_url' do
+    after(:each) do
+      expect(@formatter.shield_url).to eq @url
+    end
+
     it 'should generate a green shield url' do
-      allow(@formatter).to receive(:coverage_percent).and_return(99)
-      expect(@formatter.shield_url).to eq('http://img.shields.io/badge/coverage-99%25-brightgreen.svg')
+      allow(@formatter).to receive(:coverage_percent).and_return(95)
+      @url = 'http://img.shields.io/badge/coverage-95%25-brightgreen.svg'
     end
 
     it 'should generate a yellow shield url' do
       allow(@formatter).to receive(:coverage_percent).and_return(85)
-      expect(@formatter.shield_url).to eq('http://img.shields.io/badge/coverage-85%25-yellow.svg')
+      @url = 'http://img.shields.io/badge/coverage-85%25-yellow.svg'
     end
 
     it 'should generate a red shield url' do
-      allow(@formatter).to receive(:coverage_percent).and_return(68)
-      expect(@formatter.shield_url).to eq('http://img.shields.io/badge/coverage-68%25-red.svg')
+      allow(@formatter).to receive(:coverage_percent).and_return(75)
+      @url = 'http://img.shields.io/badge/coverage-75%25-red.svg'
     end
 
     it 'should append flat style option when set' do
-      allow(@formatter).to receive(:coverage_percent).and_return(99)
-
+      allow(@formatter).to receive(:coverage_percent).and_return(95)
       SimpleCov::Formatter::ShieldFormatter.config[:style] = 'flat'
-      expect(@formatter.shield_url).to eq('http://img.shields.io/badge/coverage-99%25-brightgreen.svg?style=flat')
+      @url = 'http://img.shields.io/badge/coverage-95%25-brightgreen.svg?style=flat'
     end
 
     it 'should not append invalid styles' do
-      allow(@formatter).to receive(:coverage_percent).and_return(99)
-
+      allow(@formatter).to receive(:coverage_percent).and_return(95)
       SimpleCov::Formatter::ShieldFormatter.config[:style] = 'fake'
-      expect(@formatter.shield_url).to eq('http://img.shields.io/badge/coverage-99%25-brightgreen.svg')
+      @url = 'http://img.shields.io/badge/coverage-95%25-brightgreen.svg'
     end
   end
 

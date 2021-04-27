@@ -8,6 +8,11 @@ end
 require 'simplecov-shield'
 
 ASSETS_PATH = File.expand_path('assets', __dir__)
+COVERAGE_PATH = File.expand_path('../coverage', __dir__)
+
+DEFAULT_BADGE_NAME = 'coverage'
+DEFAULT_PRECISION = 0
+DEFAULT_STYLE = nil
 
 RSpec.configure do |config|
   # Spec Filtering

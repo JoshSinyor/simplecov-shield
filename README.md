@@ -7,7 +7,7 @@
 [![Dependency Status](https://gemnasium.com/aterris/simplecov-shield.svg)](https://gemnasium.com/aterris/simplecov-shield)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
- 
+
 [SimpleCov](https://github.com/colszowka/simplecov) Formatter to generate coverage badge via [Shields.io](http://shields.io/)
 
 ## Install
@@ -47,11 +47,11 @@ SimpleCov::Formatter::ShieldFormatter.config[:option] = value
 
 ##### Options
 
-| Name       | Description                 | Default    | Allowed          |
-| ---------- | --------------------------- | ---------- | ---------------- |
-| badge_name | badge title                 | 'coverage' | String           |
-| style      | badge style                 | :normal    | :normal, :flat   |
-| precision  | coverage percent precision  | 0          | Integer          |
+| Name       | Description                 | Default    | Allowed                                                     |
+| ---------- | --------------------------- | ---------- | ----------------------------------------------------------- |
+| badge_name | badge title                 | 'coverage' | String                                                      |
+| style      | badge style                 | :normal    | 'plastic', 'flat', 'flat-square', 'for-the-badge', 'social' |
+| precision  | coverage percent precision  | 0          | Integer                                                     |
 
 
 ## Contributing
